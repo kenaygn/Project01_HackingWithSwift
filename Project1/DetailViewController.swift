@@ -11,11 +11,33 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var imageView: UIImageView!
     //@IBOutlet conecta com algo que esta no Construtor de interface
+    var selectedImage: String?
+    var selectedImageIndex: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        title = "Pictute \((selectedImageIndex ?? 0) + 1)"
+        navigationItem.largeTitleDisplayMode = .never
+        
+        if let imageToLoad = selectedImage {
+            imageView.image = UIImage(named: imageToLoad)
+        }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.hidesBarsOnTap = true
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.hidesBarsOnTap = false
+    }
+    
     
 
     /*

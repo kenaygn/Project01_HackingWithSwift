@@ -14,6 +14,9 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()//Faz com que o Xcode execute o codigo dele antes de executar o meu
         
+        title = "Storm Viewer"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         let fm = FileManager.default //tipo de sistema integrado que nos permite trabalhar com sistema de arquivos, usaremos para o loop nos arquivos
         
         let patch = Bundle.main.resourcePath! // Defini o caminho do recurso do pacote do nosso aplicativo. Bundle é um diretorio para o nosso arquivo
@@ -26,6 +29,7 @@ class ViewController: UITableViewController {
             }
         }
         
+        pictures.sort()
         print(pictures)
         
     }
@@ -38,7 +42,18 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Picture", for: indexPath)// Faz com que a celula que estiver fora da tela entre em um estado de espera para nao sobrecarregar cpu
         cell.textLabel?.text = pictures[indexPath.row]//Adiciona na tela o texto
+        cell.textLabel?.font = .systemFont(ofSize: 28, weight: .medium)
         return cell //Retorna uma celula de uma tabela
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            vc.selectedImage = pictures[indexPath.row]
+            vc.selectedImageIndex = indexPath.row
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
 
 }
